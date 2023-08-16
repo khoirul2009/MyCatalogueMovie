@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:title="@string/display"
+        >
+        <ListPreference
+            app:defaultValue="@string/pref_dark_auto"
+            app:entries="@array/dark_mode"
+            app:entryValues="@array/dark_mode_value"
+            app:key="@string/pref_key_dark"
+            app:title="@string/pref_dark_title"
+            app:useSimpleSummaryProvider="true" />
+
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        app:title="@string/accessibility"
+        >
+        <ListPreference
+            app:defaultValue="@string/pref_lang_en"
+            app:entries="@array/language_mode"
+            app:entryValues="@array/language_mode_value"
+            app:key="@string/pref_key_lang"
+            app:title="@string/pref_language_title"
+            app:useSimpleSummaryProvider="true" />
+
+
+    </PreferenceCategory>
+</PreferenceScreen>
