@@ -19,6 +19,7 @@ import com.mymovie.databinding.FragmentHomeBinding
 import com.mymovie.detail.DetailActivity
 import com.mymovie.core.ui.MovieAdapterPaging
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.max
 
 
 class HomeFragment : Fragment() {
@@ -30,7 +31,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -48,30 +49,31 @@ class HomeFragment : Fragment() {
                 startActivity(intent)
             }
 
-            homeViewModel.movie.observe(viewLifecycleOwner, {movie ->
-                if(movie != null) {
-                    when(movie) {
+            homeViewModel.movie.observe(viewLifecycleOwner) { movie ->
+                if (movie != null) {
+                    when (movie) {
                         is Resource.Loading -> binding.preloaderLayout.visibility = View.VISIBLE
                         is Resource.Success -> {
-//                            binding.progressBar.visibility = View.GONE
                             binding.preloaderLayout.visibility = View.GONE
+                            binding.contentLayout.visibility = View.VISIBLE
                             movieAdapter.setData(movie.data)
                         }
                         is Resource.Error -> {
-//                            binding.progressBar.visibility = View.GONE
                             binding.preloaderLayout.visibility = View.GONE
-                            binding.viewError.root.visibility = View.VISIBLE
-                            binding.viewError.tvError.text = movie.message ?: getString(R.string.something_wrong)
+                            binding.viewErrorContainer.visibility = View.VISIBLE
+                            binding.contentLayout.visibility = View.GONE
+                            binding.viewError.tvError.text =
+                                movie.message ?: getString(R.string.something_wrong)
                         }
                     }
                 }
-            })
+            }
 
 
-            homeViewModel.genres.observe(viewLifecycleOwner, {
+            homeViewModel.genres.observe(viewLifecycleOwner) {
 
-                if(it != null) {
-                    when(it) {
+                if (it != null) {
+                    when (it) {
                         is Resource.Loading -> binding.preloaderLayout.visibility = View.VISIBLE
                         is Resource.Success -> {
                             setDataChip(it.data)
@@ -80,12 +82,13 @@ class HomeFragment : Fragment() {
                         }
                         is Resource.Error -> {
                             binding.preloaderLayout.visibility = View.GONE
-                            Toast.makeText(requireActivity(), "Someting Error", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireActivity(), "Someting Error", Toast.LENGTH_SHORT)
+                                .show()
                         }
 
                     }
                 }
-            })
+            }
 
             with(binding.rvMovie) {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -101,9 +104,10 @@ class HomeFragment : Fragment() {
                 requireContext().startActivity(intent)
             }
 
-
+            val screenWidth = resources.displayMetrics.widthPixels
+            val columnCount = calculateColumnCount(screenWidth)
             with(binding.discoverMovie) {
-                layoutManager = GridLayoutManager(context, 2)
+                layoutManager = GridLayoutManager(context, columnCount)
                 adapter = movieAdapterDiscover.withLoadStateFooter(
                     footer = LoadingStateAdapter {
                         movieAdapterDiscover.retry()
@@ -113,18 +117,25 @@ class HomeFragment : Fragment() {
 
             loadDataMovie(movieAdapterDiscover)
 
-            homeViewModel.selectedGenres.observe(viewLifecycleOwner, {
+            homeViewModel.selectedGenres.observe(viewLifecycleOwner) {
                 loadDataMovie(movieAdapterDiscover)
-            })
+            }
 
         }
         binding.genreList.isHorizontalScrollBarEnabled = false
     }
 
     private fun loadDataMovie(movieAdapterDiscover: MovieAdapterPaging) {
-        homeViewModel.getMovieDiscover().observe(viewLifecycleOwner, {
+        homeViewModel.getMovieDiscover().observe(viewLifecycleOwner) {
             movieAdapterDiscover.submitData(lifecycle, it)
-        })
+        }
+    }
+
+    private fun calculateColumnCount(screenWidth: Int): Int {
+        val columnWidth = 250
+        val density = resources.displayMetrics.density
+        val columnCount: Int = (screenWidth / (columnWidth * density)).toInt()
+        return max(columnCount, 2)
     }
 
 
@@ -137,7 +148,7 @@ class HomeFragment : Fragment() {
             chip.text = it.name
             chip.isClickable= true
             chip.isCheckable = true
-            chip.setOnCheckedChangeListener {compoundButton, isChecked ->
+            chip.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     selectedGenre.add(it.id)
                 } else {

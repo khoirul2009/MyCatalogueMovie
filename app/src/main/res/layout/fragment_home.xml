@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:id="@+id/preloader_layout"
+        android:visibility="gone"
+        app:shimmer_auto_start="true"
+        android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/preloader_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
+
 
             >
             <include layout="@layout/movie_placeholder_horizontal"/>
         </LinearLayout>
-    <ScrollView
 
+    </com.facebook.shimmer.ShimmerFrameLayout>
+    <LinearLayout
+        android:id="@+id/view_error_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+        <include
+            android:id="@+id/view_error"
+            layout="@layout/view_error" />
+    </LinearLayout>
+    <ScrollView
+        android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,16 +43,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
-                android:paddingHorizontal="8dp"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="16dp"
                 android:text="@string/popular_movie"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,19 +58,20 @@
                 android:id="@+id/rv_movie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
                 app:scrollOrientation="horizontal"
                 tools:itemCount="1"
-                tools:listitem="@layout/menu_item" />
+                tools:listitem="@layout/movie_item" />
 
             <TextView
                 android:id="@+id/list_movie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="8dp"
-                android:textSize="24sp"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:text="@string/chose_your_genres"
                 app:layout_constraintTop_toBottomOf="@+id/rv_movie"
@@ -74,12 +89,12 @@
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroup"
+                    style="@style/Widget.Material3.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="8dp"
+                    android:paddingHorizontal="16dp"
                     app:chipSpacingHorizontal="16dp"
-                    app:singleLine="true"
-                    tools:layout_editor_absoluteX="16dp">
+                    app:singleLine="true">
 
 
                 </com.google.android.material.chip.ChipGroup>
@@ -90,7 +105,7 @@
                 android:id="@+id/discover_movie"
                 android:layout_width="match_parent"
                 android:layout_marginTop="16dp"
-                tools:listitem="@layout/menu_item"
+                tools:listitem="@layout/movie_item"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/genre_list" />
@@ -106,16 +121,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <include
-                android:id="@+id/view_error"
-                layout="@layout/view_error"
-                android:visibility="gone" />
 
 
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
     </LinearLayout>
 
 

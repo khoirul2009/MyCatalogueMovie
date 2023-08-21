@@ -21,7 +21,7 @@
     <string name="dark_mode_auto">Otomatis</string>
     <string name="dark_mode_on">Mode Gelap</string>
     <string name="dark_mode_off">Mode Terang</string>
-    <string name="pref_dark_title">Mode Gelap</string>
+    <string name="pref_dark_title">Tema</string>
     <string name="pref_language_title">Bahasa</string>
     <string name="en_lang">Bahasa Inggris</string>
     <string name="id_lang">Bahasa Indonesia</string>

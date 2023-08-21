@@ -24,14 +24,14 @@ class DetailActivity : AppCompatActivity() {
 
 
         intent.getIntExtra(EXTRA_DATA, 0).let { id ->
-            viewModel.checkBookmarkId(id).observe(this, {
+            viewModel.checkBookmarkId(id).observe(this) {
                 setStatusBookmarks(it)
                 isBookmarked = it
-            })
+            }
 
-            viewModel.getDetailMovie(id).observe(this, { movie ->
-                if(movie != null) {
-                    when(movie) {
+            viewModel.getDetailMovie(id).observe(this) { movie ->
+                if (movie != null) {
+                    when (movie) {
                         is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
                         is Resource.Success -> {
                             binding.progressBar.visibility = View.GONE
@@ -39,30 +39,34 @@ class DetailActivity : AppCompatActivity() {
                                 .load("https://image.tmdb.org/t/p/w300/${movie.data?.posterPath}")
                                 .into(binding.posterBanner)
                             binding.tvMovieTitle.text = movie.data?.title
-                            binding.tvRating.text = getString(R.string.rating, movie.data?.voteAverage)
-                            binding.tvYear.text = getString(R.string.year_format, movie.data?.releaseDate!!.split("-")[0])
+                            binding.tvRating.text =
+                                getString(R.string.rating, movie.data?.voteAverage)
+                            binding.tvYear.text = getString(
+                                R.string.year_format,
+                                movie.data?.releaseDate!!.split("-")[0]
+                            )
                             binding.tvStatus.text = movie.data?.status
                             binding.tvOverview.text = movie.data?.overview
                             binding.fabBookmark.setOnClickListener {
-                                if(movie.data != null) {
-                                    if(isBookmarked) {
+                                movie.data.let {
+                                    if (isBookmarked) {
                                         viewModel.deleteFromBookmark(movie.data!!)
                                     } else {
                                         viewModel.setBookmarks(movie.data!!)
                                     }
                                     viewModel.checkBookmarkId(id)
-
                                 }
                             }
                         }
                         is Resource.Error -> {
                             binding.progressBar.visibility = View.GONE
                             binding.viewError.root.visibility = View.VISIBLE
-                            binding.viewError.tvError.text = movie.message ?: getString(R.string.something_wrong)
+                            binding.viewError.tvError.text =
+                                movie.message ?: getString(R.string.something_wrong)
                         }
                     }
                 }
-            })
+            }
 
         }
     }

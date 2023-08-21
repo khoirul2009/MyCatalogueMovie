@@ -29,7 +29,7 @@
     <string name="dark_mode_auto">Automatic</string>
     <string name="dark_mode_on">Dark mode</string>
     <string name="dark_mode_off">Light mode</string>
-    <string name="pref_dark_title">Dark Mode</string>
+    <string name="pref_dark_title">Theme</string>
     <string name="pref_language_title">Language</string>
 
     <string name="pref_key_lang" translatable="false">key_lang_mode</string>
@@ -45,6 +45,6 @@
     <string name="locale_indonesia" translatable="false">Indonesian</string>
     <string name="locale_english" translatable="false">English</string>
     <string name="setting_title">Setting</string>
-    <string name="title_bookmarks">Bookmarks</string>
+    <string name="title_bookmarks" translatable="false">Bookmarks</string>
 
 </resources>

@@ -29,7 +29,7 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -72,22 +72,22 @@ class SearchFragment : Fragment() {
                     }
                 })
             binding.searchView.editText
-                .setOnEditorActionListener { v, actionId, event ->
+                .setOnEditorActionListener { _, _, _ ->
                     val query = binding.searchView.text.toString()
-                    viewModel.search(query).observe(viewLifecycleOwner, {
+                    viewModel.search(query).observe(viewLifecycleOwner) {
                         movieAdapter.notifyDataSetChanged()
                         movieAdapter.submitData(lifecycle, it)
-                    })
+                    }
                     binding.searchBar.text = query
                     binding.searchView.hide()
                     false
                 }
         }
 
-        viewModel.searchResult.observe(viewLifecycleOwner, {
+        viewModel.searchResult.observe(viewLifecycleOwner) {
             keywordAdapter.notifyDataSetChanged()
             keywordAdapter.submitData(lifecycle, it)
-        })
+        }
 
 
         with(binding.rvSearchSugest) {
