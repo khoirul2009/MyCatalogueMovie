@@ -2,15 +2,11 @@
 <resources>
     <string name="app_name">My Movie</string>
     <string name="home_label">Beranda</string>
-    <string name="hello_blank_fragment">Halo Fragment Kosong</string>
     <string name="search_label">Telusuri</string>
     <string name="bookmarks_label">Bookmark</string>
-    <string name="title_film">Judul Film</string>
     <string name="popular_movie">Film Populer</string>
     <string name="something_wrong">Opps.. Ada yang salah!!</string>
-    <string name="status">Status</string>
     <string name="bookmark_button">Tombol Bookmark</string>
-    <string name="search_here">Telusuri Disini</string>
     <string name="searchbar_hint">Telusuri Disini</string>
     <string name="movie_poster">Poster Film</string>
     <string name="no_data">Kamu belum menambahkan apapun pada daftar bookmarkmu</string>
@@ -25,8 +21,8 @@
     <string name="pref_language_title">Bahasa</string>
     <string name="en_lang">Bahasa Inggris</string>
     <string name="id_lang">Bahasa Indonesia</string>
-    <string name="settings">Pengaturan</string>
     <string name="accessibility">Aksesbilitas</string>
     <string name="display">Tampilan</string>
     <string name="setting_title">Pengaturan</string>
+    <string name="back_button">tombol kembali</string>
 </resources>

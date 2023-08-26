@@ -132,7 +132,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun calculateColumnCount(screenWidth: Int): Int {
-        val columnWidth = 250
+        val columnWidth = 180
         val density = resources.displayMetrics.density
         val columnCount: Int = (screenWidth / (columnWidth * density)).toInt()
         return max(columnCount, 2)

@@ -75,7 +75,6 @@ class SearchFragment : Fragment() {
                 .setOnEditorActionListener { _, _, _ ->
                     val query = binding.searchView.text.toString()
                     viewModel.search(query).observe(viewLifecycleOwner) {
-                        movieAdapter.notifyDataSetChanged()
                         movieAdapter.submitData(lifecycle, it)
                     }
                     binding.searchBar.text = query
@@ -85,7 +84,6 @@ class SearchFragment : Fragment() {
         }
 
         viewModel.searchResult.observe(viewLifecycleOwner) {
-            keywordAdapter.notifyDataSetChanged()
             keywordAdapter.submitData(lifecycle, it)
         }
 

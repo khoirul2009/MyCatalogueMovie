@@ -28,7 +28,6 @@
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
             android:hint="@string/searchbar_hint" />
     </com.google.android.material.appbar.AppBarLayout>
 

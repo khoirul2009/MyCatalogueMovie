@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao {
-    @Query("SELECT * FROM movie ORDER BY popularity, voteAverage, voteCount DESC")
+    @Query("SELECT * FROM popular_movie ORDER BY popularity, voteAverage, voteCount DESC")
     fun getPopularMovie(): Flow<List<MovieEntity>>
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovie(movies: List<MovieEntity>)

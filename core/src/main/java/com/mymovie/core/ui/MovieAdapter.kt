@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.view.marginEnd
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mymovie.core.R
-import com.mymovie.core.databinding.MenuItemBinding
 import com.mymovie.core.databinding.MovieItemBinding
 import com.mymovie.core.domain.model.Movie
+import com.mymovie.core.utils.DiffCalbackMovie
 
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
@@ -19,9 +19,12 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     fun setData(newListData: List<Movie>?) {
         if (newListData == null) return
+        val diffCalback = DiffCalbackMovie(listData, newListData)
+        val diffResult = DiffUtil.calculateDiff(diffCalback)
         listData.clear()
         listData.addAll(newListData)
-        notifyDataSetChanged()
+
+        diffResult.dispatchUpdatesTo(this)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
@@ -70,4 +73,5 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
         val data = listData[position]
         holder.bind(data)
     }
+
 }

@@ -8,7 +8,9 @@ import com.mymovie.core.data.source.remote.RemoteDataSource
 import com.mymovie.core.data.source.remote.network.ApiService
 import com.mymovie.core.data.source.remote.network.QueryParamsInterceptor
 import com.mymovie.core.domain.repository.IMovieRepository
-import com.mymovie.core.utils.AppExecutors
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -23,20 +25,29 @@ val databaseModule = module {
     factory { get<MovieDatabase>().bookmarkMovieDao() }
     factory { get<MovieDatabase>().genreDao() }
     single {
+        val passphrase: ByteArray = SQLiteDatabase.getBytes("mymovie".toCharArray())
+        val factory = SupportFactory(passphrase)
         Room.databaseBuilder(
             androidContext(),
             MovieDatabase::class.java, "Movie.db"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration()
+            .openHelperFactory(factory)
+            .build()
     }
 }
 
 val networkModule = module {
     single {
+        val hostname = "*.themoviedb.org"
+        val certificatePinner = CertificatePinner.Builder()
+            .add(hostname, "sha256/5VLcahb6x4EvvFrCF2TePZulWqrLHS2jCg9Ywv6JHog=")
+            .build()
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor(QueryParamsInterceptor(androidContext()))
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
+            .certificatePinner(certificatePinner)
             .build()
     }
     single {
@@ -52,6 +63,5 @@ val networkModule = module {
 val repositoryModule = module {
     single { LocalDataSource(get(), get(), get()) }
     single { RemoteDataSource(get()) }
-    factory { AppExecutors() }
-    single<IMovieRepository> { MovieRepository(get(), get(), get()) }
+    single<IMovieRepository> { MovieRepository(get(), get()) }
 }

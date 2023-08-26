@@ -21,7 +21,9 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        binding.backButton.setOnClickListener {
+            finish()
+        }
 
         intent.getIntExtra(EXTRA_DATA, 0).let { id ->
             viewModel.checkBookmarkId(id).observe(this) {
@@ -45,6 +47,7 @@ class DetailActivity : AppCompatActivity() {
                                 R.string.year_format,
                                 movie.data?.releaseDate!!.split("-")[0]
                             )
+                            binding.tvTagline.text = movie.data?.tagline
                             binding.tvStatus.text = movie.data?.status
                             binding.tvOverview.text = movie.data?.overview
                             binding.fabBookmark.setOnClickListener {

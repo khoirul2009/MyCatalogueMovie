@@ -12,36 +12,18 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <include
-                android:id="@+id/include1"
-                layout="@layout/movie_item_placeholder"
+            <include layout="@layout/movie_item_placeholder"
                 />
-            <include
-                android:id="@+id/include2"
-                layout="@layout/movie_item_placeholder" />
+            <include layout="@layout/movie_item_placeholder" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <include
-                android:id="@+id/include3"
-                layout="@layout/movie_item_placeholder"
+            <include layout="@layout/movie_item_placeholder"
                 />
-            <include
-                android:id="@+id/include4"
-                layout="@layout/movie_item_placeholder" />
+            <include layout="@layout/movie_item_placeholder" />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <include
-                android:id="@+id/include5"
-                layout="@layout/movie_item_placeholder"
-                />
-            <include
-                android:id="@+id/include6"
-                layout="@layout/movie_item_placeholder" />
-        </LinearLayout>
+
 
 
 

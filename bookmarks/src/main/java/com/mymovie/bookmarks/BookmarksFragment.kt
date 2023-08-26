@@ -51,7 +51,7 @@ class BookmarksFragment : Fragment() {
                     if(it.size >= 1) {
                         bookmarkMovieAdapter.setData(it)
                     } else {
-                        binding.viewEmpty.root.visibility = View.VISIBLE
+                        binding.emptyV.visibility = View.VISIBLE
                         bookmarkMovieAdapter.setData(it)
                     }
                 }

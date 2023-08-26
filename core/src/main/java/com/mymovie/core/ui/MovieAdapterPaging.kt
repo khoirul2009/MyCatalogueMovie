@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mymovie.core.R
 import com.mymovie.core.domain.model.Movie
-import com.mymovie.core.databinding.MenuItemBinding
 import com.mymovie.core.databinding.MovieItemBinding
 
 class MovieAdapterPaging : PagingDataAdapter<Movie, MovieAdapterPaging.ViewHolder>(DIFF_CALLBACK) {

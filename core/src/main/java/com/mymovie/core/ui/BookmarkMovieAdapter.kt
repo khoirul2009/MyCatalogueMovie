@@ -3,11 +3,13 @@ package com.mymovie.core.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mymovie.core.R
 import com.mymovie.core.domain.model.BookmarkMovie
 import com.mymovie.core.databinding.BookmarkItemBinding
+import com.mymovie.core.utils.DiffCallbackBookmark
 
 class BookmarkMovieAdapter : RecyclerView.Adapter<BookmarkMovieAdapter.ViewHolder>() {
     private val listData = ArrayList<BookmarkMovie>()
@@ -21,22 +23,22 @@ class BookmarkMovieAdapter : RecyclerView.Adapter<BookmarkMovieAdapter.ViewHolde
                     .load("https://image.tmdb.org/t/p/w300/${data.posterPath}")
                     .into(image)
                 tvTitle.text = data.title
-                textView2.text = itemView.context.getString(R.string.rating, data.voteAverage)
+                tvRating.text = itemView.context.getString(R.string.rating, data.voteAverage)
+            }
+            itemView.setOnClickListener {
+                onItemClick?.invoke(data)
             }
         }
 
-        init {
-            binding.root.setOnClickListener {
-                onItemClick?.invoke(listData[adapterPosition])
-            }
-        }
     }
 
     fun setData(newListData: List<BookmarkMovie>?) {
         if (newListData == null) return
+        val diffCalback = DiffCallbackBookmark(listData, newListData)
+        val diffResult = DiffUtil.calculateDiff(diffCalback)
         listData.clear()
         listData.addAll(newListData)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

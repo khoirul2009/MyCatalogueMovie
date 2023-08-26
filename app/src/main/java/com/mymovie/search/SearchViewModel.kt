@@ -9,12 +9,15 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.mymovie.core.domain.model.Movie
 import com.mymovie.core.domain.usecase.MovieUseCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 
 class SearchViewModel(private val movieUseCase: MovieUseCase): ViewModel() {
 
     val queryChannel = MutableStateFlow("")
 
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     val searchResult: LiveData<PagingData<Movie>> = queryChannel
         .debounce(300)
         .distinctUntilChanged()

@@ -17,14 +17,16 @@ import com.mymovie.core.domain.model.DetailMovie
 import com.mymovie.core.domain.model.Genre
 import com.mymovie.core.domain.model.Movie
 import com.mymovie.core.domain.repository.IMovieRepository
-import com.mymovie.core.utils.AppExecutors
 import com.mymovie.core.utils.DataMapper
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
+@OptIn(DelicateCoroutinesApi::class)
 class MovieRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
-    private val appExecutors: AppExecutors
 
 ) : IMovieRepository {
 
@@ -128,16 +130,18 @@ class MovieRepository(
             override fun shouldFetch(data: List<Genre>?): Boolean = true
         }.asFlow()
 
+
     override fun addToBookmark(bookmarkMovie: BookmarkMovie) {
-        appExecutors.diskIO().execute {
+        GlobalScope.launch {
             localDataSource.insertMovieToBookmark(
                 DataMapper.mapBookmarkDomainToEntity(bookmarkMovie)
             )
         }
+
     }
 
     override fun deleteFromBookmark(bookmarkMovie: BookmarkMovie) {
-        appExecutors.diskIO().execute {
+        GlobalScope.launch {
             localDataSource.deleteMovieFromBookmark(
                 DataMapper.mapBookmarkDomainToEntity(bookmarkMovie)
             )

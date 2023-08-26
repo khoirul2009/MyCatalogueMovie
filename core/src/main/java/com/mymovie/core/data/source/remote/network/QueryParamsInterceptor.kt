@@ -5,7 +5,7 @@ package com.mymovie.core.data.source.remote.network
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.mymovie.core.R
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -27,7 +27,7 @@ class QueryParamsInterceptor(private val context: Context) : Interceptor {
         return chain.proceed(newRequest)
     }
 
-    fun getListPreferenceValue(context: Context, key: String, defaultValue: String): String {
+    private fun getListPreferenceValue(context: Context, key: String, defaultValue: String): String {
         val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         return sharedPreferences.getString(key, defaultValue) ?: defaultValue
     }

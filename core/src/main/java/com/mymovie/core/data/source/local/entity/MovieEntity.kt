@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 import com.mymovie.core.utils.ArrayConverter
 
 
-@Entity(tableName = "movie")
+@Entity(tableName = "popular_movie")
 data class MovieEntity(
     @ColumnInfo(name = "overview")
     val overview: String,
